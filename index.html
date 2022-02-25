@@ -109,11 +109,11 @@ map.on('load', () => {
 	// Separate out today's data from previous
 	videoDataToday = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.days_old==0)
+		'features': videoData.features.filter(o => o.properties.hours_old<=24)
 	}
 	videoDataOld = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.days_old>0)
+		'features': videoData.features.filter(o => o.properties.hours_old>24)
 	}
 
   // Create this source and layer before everything else
