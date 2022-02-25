@@ -89,7 +89,6 @@ function toggleNav() {
 // Create feed
 for (var i = 0; i < videoData.features.length; i++) {
 	var v = videoData.features[i];
-	console.log(v);
 	var curhtml = document.getElementById("feed").innerHTML;
 	document.getElementById("feed").innerHTML = curhtml + '<div style="padding-bottom: 20px">' + v.properties.description + "</div>";
 }
@@ -107,10 +106,24 @@ const map = new mapboxgl.Map({
 
 map.on('load', () => {
 
+	// Separate out today's data from previous
+	videoDataToday = {
+		'type': 'FeatureCollection',
+		'features': videoData.features.filter(o => o.properties.days_old==0)
+	}
+	videoDataOld = {
+		'type': 'FeatureCollection',
+		'features': videoData.features.filter(o => o.properties.days_old>0)
+	}
+
   // Create this source and layer before everything else
-  map.addSource('videoData', {
+  map.addSource('videoDataToday', {
     'type': 'geojson',
-    'data': videoData
+    'data': videoDataToday
+	});
+  map.addSource('videoDataOld', {
+    'type': 'geojson',
+    'data': videoDataOld
 	});
   map.addSource('ukrVoronoi', {
     'type': 'geojson',
@@ -143,11 +156,27 @@ map.on('load', () => {
 		}
 	});
 
+	map.addLayer({
+		'id': 'videoDataOld',
+		'type': 'circle',
+		'source': 'videoDataOld',
+		'layout': {
+			'circle-sort-key': ['get', 'order']
+		},
+		'paint': {
+			'circle-color': 'DimGray',
+			'circle-radius': 3,
+			'circle-stroke-width': 1,
+			'circle-stroke-color': 'grey'
+		}
+	});
+
+
 	// Add a layer showing the places.
 	map.addLayer({
-		'id': 'videoData',
+		'id': 'videoDataToday',
 		'type': 'circle',
-		'source': 'videoData',
+		'source': 'videoDataToday',
 		'layout': {
 			'circle-sort-key': ['get', 'order']
 		},
@@ -176,15 +205,7 @@ map.on('load', () => {
 			],
 			'circle-radius': 6,
 			'circle-stroke-width': 1,
-			'circle-stroke-color': [
-				'match',
-				['get', 'days_old'],
-				0,
-				'white',
-				1,
-				'grey',
-				'grey'
-			],
+			'circle-stroke-color': 'white'
 		}
 	});
 
@@ -193,8 +214,9 @@ map.on('load', () => {
 		closeButton: false,
 		closeOnClick: true
 	});
-	 
-	map.on('mouseenter', 'videoData', (e) => {
+
+
+	var doThePopupThing = function(e) {
 		// Change the cursor style as a UI indicator.
 		map.getCanvas().style.cursor = 'pointer';
 		 
@@ -212,8 +234,14 @@ map.on('load', () => {
 		// Populate the popup and set its coordinates
 		// based on the feature found.
 		popup.setLngLat(coordinates).setHTML(description).addTo(map);
-	});
+	}
 	 
+	map.on('mouseenter', 'videoDataToday', (e) => {
+		doThePopupThing(e);
+	});
+	map.on('mouseenter', 'videoDataOld', (e) => {
+		doThePopupThing(e);
+	});
 	// map.on('mouseleave', 'videoData', () => {
 	// 	map.getCanvas().style.cursor = '';
 	// 	popup.remove();
