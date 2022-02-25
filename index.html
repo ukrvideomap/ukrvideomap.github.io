@@ -84,15 +84,14 @@ map.on('load', () => {
 			'circle-sort-key': ['get', 'days_old']
 		},
 		'paint': {
-			'circle-color': 'red',
-			'circle-opacity': [
+			'circle-color': [
 				'match',
 				['get', 'days_old'],
 				0,
-				1,
+				'red',
 				-1,
-				0.5,
-				0.5
+				'maroon',
+				'maroon'
 			],
 			'circle-radius': 6,
 			'circle-stroke-width': 2,
