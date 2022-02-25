@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ukraine Recent Videos</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+	.mapboxgl-popup {
+		max-width: 400px;
+		font: 12px/20px sans-serif;
+	}
+</style>
+
+<div id="map"></div>
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script src="videoData.js"></script>
+
+<script>
+// TO MAKE THE MAP APPEAR YOU MUST
+// ADD YOUR ACCESS TOKEN FROM
+// https://account.mapbox.com
+mapboxgl.accessToken = 'pk.eyJ1IjoidHJ1YmV0c2tveSIsImEiOiJjazFwb3VoamUwemhzM29wc3ZjN3Y5Z2VoIn0.b8W8NzHjoohOmA45YucRqg';
+const map = new mapboxgl.Map({
+	container: 'map',
+	style: 'mapbox://styles/mapbox/dark-v10',
+	center: [32.0598, 49.4444],
+	zoom: 5.5
+});
+
+map.on('load', () => {
+  // Create this source and layer before everything else
+  map.addSource('videoData', {
+    'type': 'geojson',
+    'data': videoData
+	});
+
+	// Add a layer showing the places.
+	map.addLayer({
+		'id': 'videoData',
+		'type': 'circle',
+		'source': 'videoData',
+		'paint': {
+			'circle-color': 'red',
+			'circle-radius': 6,
+			'circle-stroke-width': 2,
+			'circle-stroke-color': '#ffffff'
+		}
+	});
+
+	// Create a popup, but don't add it to the map yet.
+	const popup = new mapboxgl.Popup({
+		closeButton: false,
+		closeOnClick: true
+	});
+	 
+	map.on('mouseenter', 'videoData', (e) => {
+		// Change the cursor style as a UI indicator.
+		map.getCanvas().style.cursor = 'pointer';
+		 
+		// Copy coordinates array.
+		const coordinates = e.features[0].geometry.coordinates.slice();
+		const description = e.features[0].properties.description;
+		 
+		// Ensure that if the map is zoomed out such that multiple
+		// copies of the feature are visible, the popup appears
+		// over the copy being pointed to.
+		while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+		}
+		 
+		// Populate the popup and set its coordinates
+		// based on the feature found.
+		popup.setLngLat(coordinates).setHTML(description).addTo(map);
+	});
+	 
+	// map.on('mouseleave', 'videoData', () => {
+	// 	map.getCanvas().style.cursor = '';
+	// 	popup.remove();
+	// });
+});
+</script>
+
+</body>
+</html>
