@@ -17,6 +17,9 @@ body { margin: 0; padding: 0; }
 		max-width: 400px;
 		font: 12px/20px sans-serif;
 	}
+	p {
+		margin:  0;
+	}
 </style>
 
 <div id="map"></div>
@@ -81,7 +84,7 @@ map.on('load', () => {
 		'type': 'circle',
 		'source': 'videoData',
 		'layout': {
-			'circle-sort-key': ['get', 'days_old']
+			'circle-sort-key': ['get', 'order']
 		},
 		'paint': {
 			'circle-color': [
@@ -109,7 +112,7 @@ map.on('load', () => {
 				['get', 'days_old'],
 				0,
 				'white',
-				-1,
+				1,
 				'grey',
 				'grey'
 			],
