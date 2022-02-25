@@ -17,11 +17,51 @@ body { margin: 0; padding: 0; }
 		max-width: 400px;
 		font: 12px/20px sans-serif;
 	}
+	
 	p {
 		margin:  0;
 	}
+
+	/* The sidebar menu */
+	.sidebar {
+	  height: 100%; /* 100% Full-height */
+	  width: 1px; /* 0 width - change this with JavaScript */
+	  visibility:  hidden;
+	  position: fixed; /* Stay in place */
+	  z-index: 1; /* Stay on top */
+	  top: 0;
+	  left: 0;
+	  background-color: #111; /* Black*/
+	  overflow-x: hidden; /* Disable horizontal scroll */
+	  padding-top: 10px; /* Place content 60px from the top */
+	  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+	  padding-right: 40px;
+	  padding-left: 40px;
+	  color:  white;
+		font: 12px/20px sans-serif;
+	}
+
+	.sidebar a {
+		color: lightblue;
+	}
+
+	.sidebarButton {
+	  color:  white;
+	  height: 100%; /* 100% Full-height */
+	  width:  40px;
+	  position: fixed; /* Stay in place */
+	  background: #111; /* Black*/
+		font: 12px/20px sans-serif;
+	}
+
+	#map {
+		margin-left:  40px;
+		transition: margin-left .5s; /* If you want a transition effect */
+	}
 </style>
 
+<div id="feed" class="sidebar" onclick="toggleNav()"></div>
+<div id="feedButton" class="sidebarButton" onclick="toggleNav()">Show</div>
 <div id="map"></div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -30,6 +70,30 @@ body { margin: 0; padding: 0; }
 <script src="ukr-voronoi.geojson.js"></script>
 
 <script>
+var sidebarIsOpen = false;
+/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
+function toggleNav() {
+	if (sidebarIsOpen) {
+	  document.getElementById("feed").style.width = "1px";
+	  document.getElementById("feed").style.visibility = "hidden";
+	  document.getElementById("map").style.marginLeft = "40px";
+		sidebarIsOpen = false;
+	} else {
+	  document.getElementById("feed").style.width = "250px";
+	  document.getElementById("feed").style.visibility = "visible";
+	  document.getElementById("map").style.marginLeft = "250px";
+		sidebarIsOpen = true;
+	}
+}
+
+// Create feed
+for (var i = 0; i < videoData.features.length; i++) {
+	var v = videoData.features[i];
+	console.log(v);
+	var curhtml = document.getElementById("feed").innerHTML;
+	document.getElementById("feed").innerHTML = curhtml + '<div style="padding-bottom: 20px">' + v.properties.description + "</div>";
+}
+
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
 // https://account.mapbox.com
@@ -42,6 +106,7 @@ const map = new mapboxgl.Map({
 });
 
 map.on('load', () => {
+
   // Create this source and layer before everything else
   map.addSource('videoData', {
     'type': 'geojson',
