@@ -86,12 +86,19 @@ map.on('load', () => {
 		'paint': {
 			'circle-color': [
 				'match',
-				['get', 'days_old'],
-				0,
+				['get', 'category'],
+				'Troop movement',
 				'red',
-				-1,
+				'Destroyed equipment',
 				'maroon',
-				'maroon'
+				'Quiet',
+				'blue',
+				'Bombardment',
+				'orange',
+				'Fighting',
+				'red'
+				'grey'
+
 			],
 			'circle-radius': 6,
 			'circle-stroke-width': 2,
