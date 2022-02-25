@@ -44,6 +44,18 @@ map.on('load', () => {
     'data': videoData
 	});
 
+	map.addLayer({
+		'id': 'videoData',
+		'type': 'circle',
+		'source': 'videoData',
+		'paint': {
+			'circle-color': 'red',
+			'circle-radius': 6,
+			'circle-stroke-width': 2,
+			'circle-stroke-color': '#ffffff'
+		}
+	});
+
 	// Add a layer showing the places.
 	map.addLayer({
 		'id': 'videoData',
