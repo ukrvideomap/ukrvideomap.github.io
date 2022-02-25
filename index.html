@@ -80,11 +80,31 @@ map.on('load', () => {
 		'id': 'videoData',
 		'type': 'circle',
 		'source': 'videoData',
+		'layout': {
+			'circle-sort-key': 'days_old'
+		},
 		'paint': {
 			'circle-color': 'red',
+			'circle-opacity': [
+				'match',
+				['get', 'days_old'],
+				0,
+				1,
+				1,
+				0.5,
+				0.5
+			],
 			'circle-radius': 6,
 			'circle-stroke-width': 2,
-			'circle-stroke-color': '#ffffff'
+			'circle-stroke-color': [
+				'match',
+				['get', 'days_old'],
+				0,
+				'white',
+				1,
+				'grey',
+				'grey'
+			],
 		}
 	});
 
