@@ -24,6 +24,7 @@ body { margin: 0; padding: 0; }
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
 <script src="videoData.js"></script>
+<script src="ukr-voronoi.geojson.js"></script>
 
 <script>
 // TO MAKE THE MAP APPEAR YOU MUST
@@ -43,16 +44,34 @@ map.on('load', () => {
     'type': 'geojson',
     'data': videoData
 	});
+  map.addSource('ukrVoronoi', {
+    'type': 'geojson',
+    'data': ukrVoronoi
+	});
 
 	map.addLayer({
-		'id': 'videoData',
-		'type': 'circle',
-		'source': 'videoData',
+		'id': 'ukrVoronoi',
+		'type': 'fill',
+		'source': 'ukrVoronoi',
 		'paint': {
-			'circle-color': 'red',
-			'circle-radius': 6,
-			'circle-stroke-width': 2,
-			'circle-stroke-color': '#ffffff'
+			'fill-color': [
+				'match',
+				['get', 'status'],
+				'ukr', 
+				'black',
+				'rus',
+				'red',
+				/* other */ '#ccc'
+			],
+			'fill-opacity': [
+				'match',
+				['get', 'status'],
+				'ukr', 
+				0,
+				'rus',
+				0.3,
+				/* other */ 0
+			],
 		}
 	});
 
