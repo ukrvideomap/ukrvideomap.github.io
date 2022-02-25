@@ -81,7 +81,7 @@ map.on('load', () => {
 		'type': 'circle',
 		'source': 'videoData',
 		'layout': {
-			'circle-sort-key': 'days_old'
+			'circle-sort-key': ['get', 'days_old']
 		},
 		'paint': {
 			'circle-color': 'red',
@@ -90,7 +90,7 @@ map.on('load', () => {
 				['get', 'days_old'],
 				0,
 				1,
-				1,
+				-1,
 				0.5,
 				0.5
 			],
@@ -101,7 +101,7 @@ map.on('load', () => {
 				['get', 'days_old'],
 				0,
 				'white',
-				1,
+				-1,
 				'grey',
 				'grey'
 			],
