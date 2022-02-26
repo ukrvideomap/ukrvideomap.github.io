@@ -125,6 +125,7 @@ map.on('load', () => {
 		'type': 'FeatureCollection',
 		'features': videoData.features.filter(o => o.properties.hours_old>24)
 	}
+	console.log(videoDataToday);
 
   // Create this source and layer before everything else
   map.addSource('videoDataToday', {
@@ -183,6 +184,18 @@ map.on('load', () => {
 
 
 	// Add a layer showing the places.
+	// map.addLayer({
+	// 	'id': 'poi-labels',
+	// 	'type': 'symbol',
+	// 	'source': 'videoDataToday',
+	// 	'layout': {
+	// 		'text-field': ['get', 'emoji'],
+	// 		'text-radial-offset': 0,
+	// 		'text-justify': 'center',
+	// 		'icon-image': ['get', 'icon']
+	// 	}
+	// });
+
 	map.addLayer({
 		'id': 'videoDataToday',
 		'type': 'circle',
