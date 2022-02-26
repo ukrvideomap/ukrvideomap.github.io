@@ -90,8 +90,16 @@ function toggleNav() {
 }
 
 // Create feed
+var sorted = [...videoData.features].sort((a, b) => +a.properties.hours_old > +b.properties.hours_old);
+videoData = {
+	'type': 'FeatureCollection',
+	'features': sorted
+};
+console.log(sorted)
+
 for (var i = 0; i < videoData.features.length; i++) {
 	var v = videoData.features[i];
+	console.log(v);
 	var curhtml = document.getElementById("feed").innerHTML;
 	document.getElementById("feed").innerHTML = curhtml + '<div style="padding-bottom: 20px">' + v.properties.description + "</div>";
 }
