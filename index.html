@@ -70,6 +70,7 @@ body { margin: 0; padding: 0; }
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
 <script src="videoData.js"></script>
+<script src="sidebarHtml.js"></script>
 <script src="ukr-voronoi.geojson.js"></script>
 
 <script>
@@ -90,11 +91,7 @@ function toggleNav() {
 }
 
 // Create feed
-for (var i = 0; i < videoData.features.length; i++) {
-	var v = videoData.features[i];
-	var curhtml = document.getElementById("feed").innerHTML;
-	document.getElementById("feed").innerHTML = curhtml + '<div style="padding-bottom: 20px">' + v.properties.description + "</div>";
-}
+document.getElementById("feed").innerHTML = sidebarHtml;
 
 // TO MAKE THE MAP APPEAR YOU MUST
 // ADD YOUR ACCESS TOKEN FROM
