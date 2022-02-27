@@ -1,0 +1,168 @@
+.troopmovementrussia {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/flag-russia_1f1f7-1f1fa.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.troopmovementukraine {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/flag-ukraine_1f1fa-1f1e6.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}	
+.fighting {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/collision_1f4a5.png');
+	background-size: cover;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.friendlyfirerussia {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/collision_1f4a5.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.friendlyfireukraine {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/collision_1f4a5.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.bombardment {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/bomb_1f4a3.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.fire {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/fire_1f525.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.situationreport {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/cinema_1f3a6.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.surrenderukraine {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/white-flag_1f3f3-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.surrenderrussia {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/white-flag_1f3f3-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.fatalities {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/skull_1f480.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.gathering {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/mens-room_1f6b9.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.protest {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/megaphone_1f4e3.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.refugees {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/family_1f46a.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.aircraft {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/samsung/320/small-airplane_1f6e9-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.siren {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/warning_26a0-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.shelterinplace {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/warning_26a0-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.shipscuttled {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/firecracker_1f9e8.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.bridgedestroyed {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/firecracker_1f9e8.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.destroyedequipment {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/gear_2699-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.other {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/cinema_1f3a6.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
