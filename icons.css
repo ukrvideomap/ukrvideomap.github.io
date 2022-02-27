@@ -134,6 +134,14 @@
 	border-radius: 50%;
 	cursor: pointer;
 }
+.disorder {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/warning_26a0-fe0f.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
 .shipscuttled {
 	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/firecracker_1f9e8.png');
 	background-size: cover;
