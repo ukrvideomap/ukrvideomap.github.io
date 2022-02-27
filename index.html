@@ -144,7 +144,7 @@ function startTime() {
   offset = 2;
   var today = new Date();
   var y = String(today.getUTCFullYear());
-  var mo = String(today.getUTCMonth()).padStart(2, '0');
+  var mo = String(today.getUTCMonth()+1).padStart(2, '0');
   var d = today.getUTCDate();
   var h = today.getUTCHours()
   var m = String(today.getUTCMinutes()).padStart(2, '0');
