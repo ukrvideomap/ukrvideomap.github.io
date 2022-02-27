@@ -72,12 +72,24 @@ body { margin: 0; padding: 0; }
 		margin-left:  40px;
 		transition: margin-left .5s; /* If you want a transition effect */
 	}
+
+	#lastUpdated {
+		position: relative;
+	  top: 0;
+	  right: 20;
+		background-color: none;
+		text-align: right;
+		font: 12px/20px sans-serif;
+		color: white;
+		margin-right: 10px;
+	}
 </style>
 <link rel="stylesheet" href="icons.css">
 
 <div id="map"></div>
 <div id="feed" class="sidebar" onclick="toggleNav()"></div>
 <div id="feedButton" class="sidebarButton" onclick="toggleNav()">Show</br>feed</div>
+<div id="lastUpdated"></div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -115,6 +127,10 @@ const map = new mapboxgl.Map({
 	center: [32.0598, 49.4444],
 	zoom: 5.5
 });
+
+
+// Last updated
+document.getElementById("lastUpdated").innerHTML = "Last updated " + lastUpdatedTime
 
 map.on('load', () => {
 
@@ -190,7 +206,7 @@ map.on('load', () => {
 		const el = document.createElement('div');
 		const className = feature.properties.category.toLowerCase()
 			.replaceAll(/\W/ig, '');
-		console.log(feature);
+		// console.log(feature);
 		el.className = className;
 	 
 		// make a marker for each feature and add it to the map
