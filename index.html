@@ -185,12 +185,12 @@ map.on('load', () => {
 	});
 
 	// add markers to map
-	for (const feature of videoDataToday.features) {
+	for (const feature of videoDataToday.features.reverse()) {
 		// create a HTML element for each feature
 		const el = document.createElement('div');
 		const className = feature.properties.category.toLowerCase()
 			.replaceAll(/\W/ig, '');
-		console.log(className);
+		console.log(feature);
 		el.className = className;
 	 
 		// make a marker for each feature and add it to the map
