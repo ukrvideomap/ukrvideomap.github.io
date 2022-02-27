@@ -52,6 +52,7 @@ body { margin: 0; padding: 0; }
 	  padding-left: 40px;
 	  color:  white;
 		font: 12px/20px sans-serif;
+		cursor: pointer;
 	}
 
 	.sidebar a {
@@ -66,6 +67,7 @@ body { margin: 0; padding: 0; }
 	  position: fixed; /* Stay in place */
 	  background: #111; /* Black*/
 		font: 12px/20px sans-serif;
+		cursor: pointer;
 	}
 
 	#map {
@@ -82,6 +84,10 @@ body { margin: 0; padding: 0; }
 		font: 12px/20px sans-serif;
 		color: white;
 		margin-right: 10px;
+		margin-left: 100px;
+	}
+	#lastUpdated a {
+		color: lightblue;
 	}
 </style>
 <link rel="stylesheet" href="icons.css">
@@ -130,7 +136,7 @@ const map = new mapboxgl.Map({
 
 
 // Last updated
-document.getElementById("lastUpdated").innerHTML = "Last updated " + lastUpdatedTime;
+document.getElementById("lastUpdated").innerHTML = '<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a></p><p>Last updated ' + lastUpdatedTime + '</p>';
 
 map.on('load', () => {
 
