@@ -95,7 +95,11 @@ body { margin: 0; padding: 0; }
 <div id="map"></div>
 <div id="feed" class="sidebar" onclick="toggleNav()"></div>
 <div id="feedButton" class="sidebarButton" onclick="toggleNav()">Show</br>feed</div>
-<div id="lastUpdated"></div>
+<div id="lastUpdated">
+	<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a> Suggest: mawojey712@submic.com</p>
+	<p>Last updated</p>
+	<p>Current time in Ukraine:</p>
+</div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
@@ -136,7 +140,37 @@ const map = new mapboxgl.Map({
 
 
 // Last updated
-document.getElementById("lastUpdated").innerHTML = '<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a> Suggest: mawojey712@submic.com</p><p>Last updated ' + lastUpdatedTime + '</p>';
+function startTime() {
+  offset = 2;
+  var today = new Date();
+  var y = String(today.getUTCFullYear());
+  var mo = String(today.getUTCMonth()).padStart(2, '0');
+  var d = today.getUTCDate();
+  var h = today.getUTCHours()
+  var m = String(today.getUTCMinutes()).padStart(2, '0');
+  h = h + offset;
+  if (h > 24) {
+    h = h - 24;
+    d = d + 1;
+  }
+  if (h < 0) {
+    h = h + 24;
+    d = d - 1;
+  }
+  h = String(h).padStart(2, '0');
+  d = String(d).padStart(2, '0');
+  var timestr = `${y}-${mo}-${d} ${h}:${m}`
+  document.getElementById('lastUpdated').innerHTML =  `
+  	<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a> Suggest: mawojey712@submic.com</p>
+  	<p>Last updated ${ lastUpdatedTime }</p>
+  	<p>Time in Ukraine: ${ timestr }`
+  var t = setTimeout(function() {
+    startTime()
+  }, 500);
+}
+
+startTime()
+
 
 map.on('load', () => {
 
