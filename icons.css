@@ -174,3 +174,11 @@
 	border-radius: 50%;
 	cursor: pointer;
 }
+.rockets {
+	background-image: url('https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/285/rocket_1f680.png');
+	background-size: cover;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	cursor: pointer;
+}
