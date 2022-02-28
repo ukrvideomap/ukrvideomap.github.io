@@ -78,7 +78,7 @@ body { margin: 0; padding: 0; }
 	#lastUpdated {
 		position: relative;
 	  top: 0;
-	  right: 10;
+	  right: 10px;
 		background-color: none;
 		text-align: right;
 		font: 12px/20px sans-serif;
@@ -88,6 +88,26 @@ body { margin: 0; padding: 0; }
 	}
 	#lastUpdated a {
 		color: lightblue;
+	}
+
+	#legend {
+		position: absolute;
+	  top: 70px;
+	  right: 10px;
+	  max-width: 200px;
+	  padding-left: 10px;
+	  padding-right: 10px;
+	  padding-top: 6px;
+	  padding-bottom: 6px;
+		background-color: rgba(0, 0, 0, 0.5);
+		text-align: right;
+		font: 12px/20px sans-serif;
+		color: white;
+		margin-right: 10px;
+		margin-left: 100px;
+	}
+	#legend tr {
+		text-align: left;
 	}
 </style>
 <link rel="stylesheet" href="icons.css">
@@ -99,6 +119,20 @@ body { margin: 0; padding: 0; }
 	<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a> Suggest: mawojey712@submic.com</p>
 	<p>Last updated</p>
 	<p>Current time in Ukraine:</p>
+</div>
+<div id="legend">
+	<table>
+		<tr><td><div class="fighting"></div></td><td>Fighting</td>
+		<tr><td><div class="bombardment"></div></td><td>Bombardment</td>
+		<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td>
+		<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td>
+		<tr><td><div class="aircraft"></div></td><td>Aircraft</td>
+		<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td>
+		<tr><td><div class="fatalities"></div></td><td>Dead bodies</td>
+		<tr><td><div class="fire"></div></td><td>Fire</td>
+		<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td>
+		<tr><td><div class="refugees"></div></td><td>Refugees</td>
+		<tr><td><div class="situation-report"></div></td><td>Other</td>
 </div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -134,8 +168,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoidHJ1YmV0c2tveSIsImEiOiJjazFwb3VoamUwemhzM29wc
 const map = new mapboxgl.Map({
 	container: 'map',
 	style: 'mapbox://styles/mapbox/dark-v10',
-	center: [32.0598, 49.4444],
-	zoom: 5.5
+	center: [33.8598, 49.4444],
+	zoom: 5.1
 });
 
 
@@ -166,7 +200,7 @@ function startTime() {
   	<p>Time in Ukraine: ${ timestr }`
   var t = setTimeout(function() {
     startTime()
-  }, 500);
+  }, 1000);
 }
 
 startTime()
@@ -245,7 +279,7 @@ map.on('load', () => {
 		// create a HTML element for each feature
 		const el = document.createElement('div');
 		const className = feature.properties.category.toLowerCase()
-			.replaceAll(/\W/ig, '');
+			.replaceAll(/\W/ig, '-').replaceAll(/\-+/ig, '-');
 		// console.log(feature);
 		el.className = className;
 	 
