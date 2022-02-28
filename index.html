@@ -109,6 +109,9 @@ body { margin: 0; padding: 0; }
 	#legend tr {
 		text-align: left;
 	}
+	#legend a {
+		color: lightblue;
+	}
 </style>
 <link rel="stylesheet" href="icons.css">
 
@@ -121,18 +124,22 @@ body { margin: 0; padding: 0; }
 	<p>Current time in Ukraine:</p>
 </div>
 <div id="legend">
-	<table>
-		<tr><td><div class="fighting"></div></td><td>Fighting</td>
-		<tr><td><div class="bombardment"></div></td><td>Bombardment</td>
-		<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td>
-		<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td>
-		<tr><td><div class="aircraft"></div></td><td>Aircraft</td>
-		<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td>
-		<tr><td><div class="fatalities"></div></td><td>Dead bodies</td>
-		<tr><td><div class="fire"></div></td><td>Fire</td>
-		<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td>
-		<tr><td><div class="refugees"></div></td><td>Refugees</td>
-		<tr><td><div class="situation-report"></div></td><td>Other</td>
+	<div id="legendButton" onclick="toggleLegend()"><a href=#>(hide)</a></div>
+	<div id="legendContent">
+		<table>
+			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
+			<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
+			<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
+			<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
+			<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
+			<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
+			<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
+			<tr><td><div class="fire"></div></td><td>Fire</td></tr>
+			<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
+			<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
+			<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
+		</table>
+	</div>
 </div>
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -155,6 +162,21 @@ function toggleNav() {
 	  document.getElementById("feed").style.visibility = "visible";
 	  document.getElementById("map").style.marginLeft = "250px";
 		sidebarIsOpen = true;
+	}
+}
+
+var legendIsOpen = true;
+function toggleLegend() {
+	if (legendIsOpen) {
+	  document.getElementById("legendContent").style.visibility = "hidden";
+	  document.getElementById("legendContent").style.maxHeight = "0px";
+	  document.getElementById("legendButton").innerHTML = "<a href=#>(show)</a>";
+		legendIsOpen = false;
+	} else {
+	  document.getElementById("legendContent").style.visibility = "visible";
+	  document.getElementById("legendContent").style.maxHeight = "500px";
+	  document.getElementById("legendButton").innerHTML = "<a href=#>(hide)</a>";
+		legendIsOpen = true;
 	}
 }
 
