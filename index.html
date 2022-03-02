@@ -124,11 +124,32 @@ body { margin: 0; padding: 0; }
 	<p>Current time in Ukraine:</p>
 </div>
 <div id="legend">
-	<div id="legendButton" onclick="toggleLegend()">
+	<div id="legendShowButton" onclick="toggleShowLegend()">
 		<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
 		<div style="float: left; width: 50%"><a href=#>(hide)</a></div>
 	</div>
 	<div id="legendContent">
+		<table>
+			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
+			<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
+			<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
+			<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
+			<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
+			<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
+			<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
+			<tr><td><div class="fire"></div></td><td>Fire</td></tr>
+			<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
+			<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
+			<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
+		</table>
+	</div>
+</div>
+<div id="layers">
+	<div id="layersShowButton" onclick="toggleShowLayers()">
+		<div style="text-align: left; float: left; width:50%;"><strong>Layers</strong></div>
+		<div style="float: left; width: 50%"><a href=#>(hide)</a></div>
+	</div>
+	<div id="layersContent">
 		<table>
 			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
 			<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
@@ -150,6 +171,7 @@ body { margin: 0; padding: 0; }
 <script src="videoData.js"></script>
 <script src="sidebarHtml.js"></script>
 <script src="ukr-voronoi.geojson.js"></script>
+<script src="ukr-major-lines.geojson.js"></script>
 
 <script>
 var sidebarIsOpen = false;
@@ -169,18 +191,18 @@ function toggleNav() {
 }
 
 var legendIsOpen = true;
-function toggleLegend() {
+function toggleShowLegend() {
 	if (legendIsOpen) {
 	  document.getElementById("legendContent").style.visibility = "hidden";
 	  document.getElementById("legendContent").style.maxHeight = "0px";
-	  document.getElementById("legendButton").innerHTML = `
+	  document.getElementById("legendShowButton").innerHTML = `
 	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
 			<div style="float: left; width: 50%"><a href=#>(show)</a></div>`;
 		legendIsOpen = false;
 	} else {
 	  document.getElementById("legendContent").style.visibility = "visible";
 	  document.getElementById("legendContent").style.maxHeight = "500px";
-	  document.getElementById("legendButton").innerHTML = `
+	  document.getElementById("legendShowButton").innerHTML = `
 	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
 			<div style="float: left; width: 50%"><a href=#>(hide)</a></div>`;
 		legendIsOpen = true;
@@ -261,6 +283,10 @@ map.on('load', () => {
     'type': 'geojson',
     'data': ukrVoronoi
 	});
+  map.addSource('powerLines', {
+    'type': 'geojson',
+    'data': ukrPowerLines
+	});
 
 	map.addLayer({
 		'id': 'ukrVoronoi',
@@ -287,6 +313,23 @@ map.on('load', () => {
 			],
 		}
 	});
+
+	// map.addLayer({
+	// 	'id': 'powerLines',
+	// 	'type': 'line',
+	// 	'source': 'powerLines',
+	// 	'layout': {
+	// 		'line-join': 'round',
+	// 		'line-cap': 'round'
+	// 	},
+	// 	'paint': {
+	// 		'line-color': 'lime',
+	// 		'line-width': {
+	// 			'property': 'voltage',
+	// 			'stops': [[300000, 0.25], [500000, 0.5]]
+	// 		}
+	// 	}
+	// });
 
 	map.addLayer({
 		'id': 'videoDataOld',
