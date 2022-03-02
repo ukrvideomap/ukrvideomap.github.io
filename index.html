@@ -124,7 +124,10 @@ body { margin: 0; padding: 0; }
 	<p>Current time in Ukraine:</p>
 </div>
 <div id="legend">
-	<div id="legendButton" onclick="toggleLegend()"><a href=#>(hide)</a></div>
+	<div id="legendButton" onclick="toggleLegend()">
+		<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
+		<div style="float: left; width: 50%"><a href=#>(hide)</a></div>
+	</div>
 	<div id="legendContent">
 		<table>
 			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
@@ -170,12 +173,16 @@ function toggleLegend() {
 	if (legendIsOpen) {
 	  document.getElementById("legendContent").style.visibility = "hidden";
 	  document.getElementById("legendContent").style.maxHeight = "0px";
-	  document.getElementById("legendButton").innerHTML = "<a href=#>(show)</a>";
+	  document.getElementById("legendButton").innerHTML = `
+	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(show)</a></div>`;
 		legendIsOpen = false;
 	} else {
 	  document.getElementById("legendContent").style.visibility = "visible";
 	  document.getElementById("legendContent").style.maxHeight = "500px";
-	  document.getElementById("legendButton").innerHTML = "<a href=#>(hide)</a>";
+	  document.getElementById("legendButton").innerHTML = `
+	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(hide)</a></div>`;
 		legendIsOpen = true;
 	}
 }
