@@ -209,53 +209,113 @@
 
 
 
+.old-video-circle {
+  height: 6px;
+  width: 6px;
+  background-color: DimGray;
+  border-radius: 50%;
+  border: 1px solid grey;
+  display: inline-block;
+}
+
+
+.square-territory-rus {
+	height: 12px;
+	width: 12px;
+	background-color: #CC5500;
+	opacity: 0.6;
+}
+.square-territory-lnr {
+	height: 12px;
+	width: 12px;
+	background-color: #cc7700;
+	opacity: 0.6;
+}
+.square-territory-dnr {
+	height: 12px;
+	width: 12px;
+	background-color: #cc4400;
+	opacity: 0.6;
+}
+.square-territory-ukr {
+	height: 12px;
+	width: 12px;
+	background-color: royalblue;
+	opacity: 0.3;
+}
+
+
+.pipeline-gas {
+  background: linear-gradient(135deg, transparent calc(50% - 1px), cyan 50%, transparent calc(50% + 1px) );
+  width: 12px;
+  height: 12px;
+  margin: 0 auto;
+}
+.pipeline-oil {
+  background: linear-gradient(135deg, transparent calc(50% - 1px), lime 50%, transparent calc(50% + 1px) );
+  width: 12px;
+  height: 12px;
+  margin: 0 auto;
+}
+.pipeline-ammonia {
+  background: linear-gradient(135deg, transparent calc(50% - 1px), green 50%, transparent calc(50% + 1px) );
+  width: 12px;
+  height: 12px;
+  margin: 0 auto;
+}
+.pipeline-water {
+  background: linear-gradient(135deg, transparent calc(50% - 1px), blue 50%, transparent calc(50% + 1px) );
+  width: 12px;
+  height: 12px;
+  margin: 0 auto;
+}
+
+
+.powerplant {
+	background-color: yellow;
+}
 .coal {
-	background-color: lime;
 	background-image: url('https://freesvg.org/img/1420411166.png');
 	background-size: cover;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
 	cursor: pointer;
-	border:2px solid lime;    
+	border:2px solid yellow;    
 }
 .nuclear {
-	background-color: lime;
 	background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Radiation_warning_symbol2.svg/240px-Radiation_warning_symbol2.svg.png');
 	background-size: cover;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
 	cursor: pointer;
-	border:2px solid lime;    
+	border:2px solid yellow;    
 }
 .hydro {
-	background-color: lime;
 	background-image: url('https://www.shareicon.net/data/256x256/2015/09/19/642937_nature_512x512.png');
 	background-size: cover;
 	width: 14px;
 	height: 14px;
 	border-radius: 50%;
 	cursor: pointer;
-	border: 4px solid lime;    
+	border: 4px solid yellow;    
 }
-.coal-and-gas {
-	background-color: lime;
+.coal-gas {
 	background-image: url('https://freesvg.org/img/1420411166.png');
 	background-size: cover;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
 	cursor: pointer;
-	border:2px solid lime;    
+	border:2px solid yellow;    
 }
-.coal-and-gas-and-oil {
-	background-color: lime;
+.coal-gas-oil {
 	background-image: url('https://freesvg.org/img/1420411166.png');
 	background-size: cover;
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
 	cursor: pointer;
-	border:2px solid lime;    
+	border:2px solid yellow;    
 }

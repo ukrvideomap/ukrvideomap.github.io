@@ -9,222 +9,357 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSC8MQFJ06"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
 
-  gtag('config', 'G-YSC8MQFJ06');
+	gtag('config', 'G-YSC8MQFJ06');
 </script>
-
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
 </head>
 <body>
 <style>
-	.mapboxgl-popup-content {
-		overflow-y: scroll;
-		max-width: 400px;
-		font: 12px/20px sans-serif;
-		max-height: 300px;
-		margin-right: 5px;
-	}
+body {
+	margin: 0;
+}
+#feedButton {
+	left: 1rem;
+	position: fixed;
+	top: 1rem;
+	z-index: 1000;	
+}
+
+#toolbar {
+	right: 1rem;
+	position: absolute;
+	top: 1rem;
+	z-index: 1000;
+	display: block;
+}
+
+#map {
+	height: 100vh;
+	width: 100%;
+}
+
+#mapAndFeed {
+	display: flex;
+	height: 100%;
+}
+
+/* The sidebar menu */
+.sidebar {
+	flex-basis: 0;
+	transition: all 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	width: 0;
+	height: 100%; /* 100% Full-height */
+	background-color: #111; /* Black*/
+	overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 10px; /* Place content 60px from the top */
+	transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+	color:  white;
+	font: 12px/20px sans-serif;
+}
+.open {
+	flex-basis: 25%;
+	position: relative;
+	padding-left: 10px;
+}
+.sidebar a {
+	color: lightblue;
+}
+
+.mapboxgl-popup-content {
+	overflow-y: scroll;
+	max-width: 400px;
+	font: 12px/20px sans-serif;
+	max-height: 300px;
+	margin-right: 5px;
+}
 	
-	p {
-		margin:  0;
-	}
+p {
+	margin:  0;
+}
 
-	/* The sidebar menu */
-	.sidebar {
-	  height: 100%; /* 100% Full-height */
-	  width: 1px; /* 0 width - change this with JavaScript */
-	  visibility:  hidden;
-	  position: fixed; /* Stay in place */
-	  z-index: 1; /* Stay on top */
-	  top: 0;
-	  left: 0;
-	  background-color: #111; /* Black*/
-	  overflow-x: hidden; /* Disable horizontal scroll */
-	  padding-top: 10px; /* Place content 60px from the top */
-	  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-	  padding-right: 40px;
-	  padding-left: 40px;
-	  color:  white;
-		font: 12px/20px sans-serif;
-		cursor: pointer;
-	}
+#lastUpdated {
+	position: relative;
+	top: 0;
+	right: 10px;
+	background-color: none;
+	text-align: right;
+	font: 12px/20px sans-serif;
+	color: white;
+	margin-right: 10px;
+	margin-left: 100px;
+}
+#lastUpdated a {
+	color: lightblue;
+}
 
-	.sidebar a {
-		color: lightblue;
-	}
+.control-panel {
+	margin-top: 6px;
+	width: 200px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	background-color: rgba(0, 0, 0, 0.5);
+	font: 12px/20px sans-serif;
+	color: white;
+}
+.control-panel tr {
+	text-align: left;
+}
+.control-panel a {
+	color: lightblue;
+}
 
-	.sidebarButton {
-		padding-left: 7px;
-	  color:  white;
-	  height: 100%; /* 100% Full-height */
-	  width:  40px;
-	  position: fixed; /* Stay in place */
-	  background: #111; /* Black*/
-		font: 12px/20px sans-serif;
-		cursor: pointer;
-	}
+.button {
+	display: inline-block;
+	cursor: pointer;
+	margin: 0;
+	padding: 0.15rem 0.5rem;
+	border: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	font: 12px/20px sans-serif;
+	z-index: 1;
+}
 
-	#map {
-		margin-left:  40px;
-		transition: margin-left .5s; /* If you want a transition effect */
-	}
+.pressed {
+	background-color: rgba(100, 0, 0, 0.5);
+}
 
-	#lastUpdated {
-		position: relative;
-	  top: 0;
-	  right: 10px;
-		background-color: none;
-		text-align: right;
-		font: 12px/20px sans-serif;
-		color: white;
-		margin-right: 10px;
-		margin-left: 100px;
-	}
-	#lastUpdated a {
-		color: lightblue;
-	}
+.hidden {
+	display: none;
+}
 
-	#legend {
-		position: absolute;
-	  top: 70px;
-	  right: 10px;
-	  max-width: 200px;
-	  padding-left: 10px;
-	  padding-right: 10px;
-	  padding-top: 6px;
-	  padding-bottom: 6px;
-		background-color: rgba(0, 0, 0, 0.5);
-		text-align: right;
-		font: 12px/20px sans-serif;
-		color: white;
-		margin-right: 10px;
-		margin-left: 100px;
-	}
-	#legend tr {
-		text-align: left;
-	}
-	#legend a {
-		color: lightblue;
-	}
+
+#legend {
+	max-height: 50%;
+	overflow-y: scroll;
+}
+#legend i {
+	text-align: left;
+}
+
+#lastUpdated {
+	right: 250px;
+	position: fixed;
+	top: 1rem;
+	z-index: 1000;	
+}
 </style>
 <link rel="stylesheet" href="icons.css">
 
-<div id="map"></div>
-<div id="feed" class="sidebar" onclick="toggleNav()"></div>
-<div id="feedButton" class="sidebarButton" onclick="toggleNav()">Show</br>feed</div>
-<div id="lastUpdated">
-	<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy">Donate</a> Suggest: mawojey712@submic.com</p>
-	<p>Last updated</p>
-	<p>Current time in Ukraine:</p>
+<div id="feedButton" class="button" onclick="toggleFeed()">Show feed</div>
+<div id="lastUpdated"></div>
+<div id="toolbar">
+	<div id="languageSelector">
+		<div id="lang-button-ru" class="lang-button button" onclick="setLang('ru')">Рус</div>
+		<div id="lang-button-en" class="lang-button button" onclick="setLang('en')">Eng</div>
+	</div>
+	<div id="layers" class="control-panel">
+		<div id="layersShowButton" onclick="toggleShowLayers()">
+			<div id="layers-title" style="text-align: left; float: left; width:50%;"><strong>Layers</strong></div>
+			<div id="layers-hide" style="float: left; text-align: right; width: 50%"><a href=#>(hide)</a></div>
+		</div>
+		<div id="layersContent">
+			<div style="text-align: left;">
+				<input type="checkbox" data-parent="-1" id="checkbox-videos" checked="true">
+				<label for="checkbox-videos" id="label-videos">Videos</label>
+				<div style="margin-left: 1.5rem;">
+					<input type="checkbox" data-parent="checkbox-videos" id="checkbox-recent" checked="true">
+					<label for="checkbox-recent" id="label-recent">Recent</label><br>
+					<input type="checkbox" data-parent="checkbox-videos" id="checkbox-old">
+					<label for="checkbox-old" id="label-old">Old</label>
+				</div>
+			</div>
+			<div style="text-align: left;">
+				<input type="checkbox" data-parent="-1" id="checkbox-troops" checked="true">
+				<label for="checkbox-troops" id="label-videos">Troops</label>
+				<div style="margin-left: 1.5rem;">
+					<input type="checkbox" data-parent="checkbox-troops" id="checkbox-territory" checked="true">
+					<label for="checkbox-territory" id="label-territory">Territory</label><br>
+					<!-- <input type="checkbox" data-parent="checkbox-troops" id="checkbox-troop-placements" checked="true"> -->
+					<!-- <label for="checkbox-troop-placements" id="label-troop-placements">Troop placements</label><br> -->
+				</div>
+			</div>
+			<div style="text-align: left;">
+				<input type="checkbox" data-parent="-1" id="checkbox-infrastructure">
+				<label for="checkbox-infrastructure" id="label-infrastructure">Infrastructure</label>
+				<div style="margin-left: 1.5rem;">
+					<input type="checkbox" data-parent="checkbox-infrastructure" id="checkbox-population">
+					<label for="checkbox-population" id="label-population">Population</label><br>
+					<input type="checkbox" data-parent="checkbox-infrastructure" id="checkbox-electricity">
+					<label for="checkbox-electricity" id="label-electricity">Electricity</label><br>
+					<input type="checkbox" data-parent="checkbox-infrastructure" id="checkbox-pipelines">
+					<label for="checkbox-pipelines" id="label-pipelines">Pipelines</label><br>
+					<!-- <input type="checkbox" data-parent="checkbox-infrastructure" id="checkbox-railways"> -->
+					<!-- <label for="checkbox-railways" id="label-railways">Railways</label> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="legend" class="control-panel">
+		<div id="legendShowButton" onclick="toggleShowLegend()">
+			<div style="text-align: left; float: left; width:50%;"><strong>Legend</strong></div>
+			<div style="float: left; text-align: right; width: 50%"><a href=#>(hide)</a></div>
+		</div>
+		<div id="legendContent">
+			<div id="legend-recent">
+				<div class="legend-lang" language="en">
+					<i>Recent videos (24 hrs)</i>
+					<table>
+						<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
+						<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
+						<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
+						<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
+						<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
+						<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
+						<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
+						<tr><td><div class="fire"></div></td><td>Fire</td></tr>
+						<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
+						<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
+						<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
+					</table>
+				</div>
+				<div class="legend-lang" language="ru">
+					<i>Недавние видео (24 ч)</i>
+					<table>
+						<tr><td><div class="fighting"></div></td><td>Бой</td></tr>
+						<tr><td><div class="bombardment"></div></td><td>Бомбы</td></tr>
+						<tr><td><div class="troop-movement-russia"></div></td><td>Действие войск РФ</td></tr>
+						<tr><td><div class="troop-movement-ukraine"></div></td><td>Действие войск ВСУ</td></tr>
+						<tr><td><div class="aircraft"></div></td><td>Авиация</td></tr>
+						<tr><td><div class="destroyed-equipment"></div></td><td>Утраченная техника</td></tr>
+						<tr><td><div class="fatalities"></div></td><td>Трупы</td></tr>
+						<tr><td><div class="fire"></div></td><td>Пожар</td></tr>
+						<tr><td><div class="bridge-destroyed"></div></td><td>Мост уничтожен</td></tr>
+						<tr><td><div class="refugees"></div></td><td>Беженцы</td></tr>
+						<tr><td><div class="situation-report"></div></td><td>Другие видео</td></tr>
+					</table>
+				</div>
+			</div>
+<!-- 			<div id="legend-old">
+				<div class="legend-lang" language="en">
+					<i>Old videos</i>
+					<table>
+						<tr><td><div class="old-video-circle"></div></td><td>Old video</td></tr>
+					</table>
+				</div>
+				<div class="legend-lang" language="ru">
+					<i>Старые видео</i>
+					<table>
+						<tr><td><div class="old-video-circle"></div></td><td>Старый видео</td></tr>
+					</table>
+				</div>
+			</div> -->
+			<div id="legend-territory">
+				<div class="legend-lang" language="en">
+					<i>Territory</i>
+					<table>
+						<tr><td><div class="square-territory-rus"></div></td><td>Russian Federation</td></tr>
+						<tr><td><div class="square-territory-lnr"></div></td><td>LNR</td></tr>
+						<tr><td><div class="square-territory-dnr"></div></td><td>DNR</td></tr>
+						<tr><td><div class="square-territory-ukr"></div></td><td>Ukraine</td></tr>
+					</table>
+				</div>
+				<div class="legend-lang" language="ru">
+					<i>Территория</i>
+					<table>
+						<tr><td><div class="square-territory-rus"></div></td><td>Российская Федерация</td></tr>
+						<tr><td><div class="square-territory-lnr"></div></td><td>ЛНР</td></tr>
+						<tr><td><div class="square-territory-dnr"></div></td><td>ДНР</td></tr>
+						<tr><td><div class="square-territory-ukr"></div></td><td>Украина</td></tr>
+					</table>
+				</div>
+			</div>
+			<div id="legend-troop-placements">
+			</div>
+			<div id="legend-population">
+			</div>
+			<div id="legend-electricity">
+			</div>
+			<div id="legend-pipelines">
+				<div class="legend-lang" language="en">
+					<i>Pipelines</i>
+					<table>
+						<tr><td><div class="pipeline-gas"></div></td><td>Gas</td></tr>
+						<tr><td><div class="pipeline-oil"></div></td><td>Oil</td></tr>
+						<tr><td><div class="pipeline-ammonia"></div></td><td>Ammonia</td></tr>
+						<tr><td><div class="pipeline-water"></div></td><td>Water</td></tr>
+					</table>
+				</div>
+				<div class="legend-lang" language="ru">
+					<i>Трубопроводы</i>
+					<table>
+						<tr><td><div class="pipeline-gas"></div></td><td>Газ</td></tr>
+						<tr><td><div class="pipeline-oil"></div></td><td>Нефть</td></tr>
+						<tr><td><div class="pipeline-ammonia"></div></td><td>Аммиак</td></tr>
+						<tr><td><div class="pipeline-water"></div></td><td>Вода</td></tr>
+					</table>
+				</div>
+			</div>
+			<div id="legend-railways">
+			</div>
+		</div>
+	</div>
 </div>
-<div id="legend">
-	<div id="legendShowButton" onclick="toggleShowLegend()">
-		<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
-		<div style="float: left; width: 50%"><a href=#>(hide)</a></div>
-	</div>
-	<div id="legendContent">
-		<table>
-			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
-			<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
-			<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
-			<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
-			<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
-			<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
-			<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
-			<tr><td><div class="fire"></div></td><td>Fire</td></tr>
-			<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
-			<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
-			<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
-		</table>
-	</div>
+<div id="mapAndFeed">
+	<div class="sidebar" id="feed"></div>
+	<div id="map"></div>
 </div>
-<div id="layers">
-	<div id="layersShowButton" onclick="toggleShowLayers()">
-		<div style="text-align: left; float: left; width:50%;"><strong>Layers</strong></div>
-		<div style="float: left; width: 50%"><a href=#>(hide)</a></div>
-	</div>
-	<div id="layersContent">
-		<table>
-			<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
-			<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
-			<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
-			<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
-			<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
-			<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
-			<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
-			<tr><td><div class="fire"></div></td><td>Fire</td></tr>
-			<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
-			<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
-			<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
-		</table>
-	</div>
-</div>
+<!-- 	<div id="feed" class="sidebar" onclick="toggleNav()"></div>
+	<div id="feedButton" class="sidebarButton" onclick="toggleNav()">Show</br>feed</div> -->
+
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/topojson.v1.min.js"></script>
 <script src="videoData.js"></script>
 <script src="sidebarHtml.js"></script>
+<script src="getRussian.js"></script>
 <script src="ukr-voronoi.geojson.js"></script>
-<!-- <script src="ukr-major-lines.geojson.js"></script> -->
+<script src="ukraine-gas-pipelines.geojson.js"></script>
+<script src="ukraine-other-pipelines.geojson.js"></script>
+<script src="ukraine-powerlines.geojson.js"></script>
+<script src="ukraine-powerplants.geojson.js"></script>
+<script src="ukr-cities-5k.geojson.js"></script>
 
 <script>
-var sidebarIsOpen = false;
-/* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-function toggleNav() {
-	if (sidebarIsOpen) {
-	  document.getElementById("feed").style.width = "1px";
-	  document.getElementById("feed").style.visibility = "hidden";
-	  document.getElementById("map").style.marginLeft = "40px";
-		sidebarIsOpen = false;
-	} else {
-	  document.getElementById("feed").style.width = "250px";
-	  document.getElementById("feed").style.visibility = "visible";
-	  document.getElementById("map").style.marginLeft = "250px";
-		sidebarIsOpen = true;
-	}
-}
-
+const sidebarHtmlLangs = {
+	'en': sidebarHtml,
+	'ru': getRussian(sidebarHtml)
+};
+var chosenLang = 'en';
+setLang('en');
 var legendIsOpen = true;
-function toggleShowLegend() {
-	if (legendIsOpen) {
-	  document.getElementById("legendContent").style.visibility = "hidden";
-	  document.getElementById("legendContent").style.maxHeight = "0px";
-	  document.getElementById("legendShowButton").innerHTML = `
-	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
-			<div style="float: left; width: 50%"><a href=#>(show)</a></div>`;
-		legendIsOpen = false;
-	} else {
-	  document.getElementById("legendContent").style.visibility = "visible";
-	  document.getElementById("legendContent").style.maxHeight = "500px";
-	  document.getElementById("legendShowButton").innerHTML = `
-	  	<div style="text-align: left; float: left; width:50%;"><strong>Symbols</strong></div>
-			<div style="float: left; width: 50%"><a href=#>(hide)</a></div>`;
-		legendIsOpen = true;
+var layersIsOpen = true;
+
+function setLang(lang) {
+	chosenLang = lang;
+
+	// change lang buttons
+	var allLangButtons = document.getElementsByClassName('lang-button');
+	for (var i=0; i < allLangButtons.length; i++) {
+			allLangButtons[i].classList.remove('pressed');
 	}
+	document.getElementById("lang-button-"+lang).classList.add('pressed');
+
+	// Feed language. First hide all legend langs, then show only selected one
+	var allLegendLangs = document.getElementsByClassName('legend-lang');
+	for (var i=0; i < allLegendLangs.length; i++) {
+			allLegendLangs[i].style.display = 'none';
+	}
+	var langquery = `[language="${chosenLang}"]`;
+	var selLegendLangs = document.querySelectorAll(langquery);
+	for (var i=0; i < selLegendLangs.length; i++) {
+			selLegendLangs[i].style.display = '';
+	}
+
+	render();
 }
 
-// Create feed
-document.getElementById("feed").innerHTML = sidebarHtml;
 
-// TO MAKE THE MAP APPEAR YOU MUST
-// ADD YOUR ACCESS TOKEN FROM
-// https://account.mapbox.com
-mapboxgl.accessToken = 'pk.eyJ1IjoidHJ1YmV0c2tveSIsImEiOiJjazFwb3VoamUwemhzM29wc3ZjN3Y5Z2VoIn0.b8W8NzHjoohOmA45YucRqg';
-const map = new mapboxgl.Map({
-	container: 'map',
-	style: 'mapbox://styles/mapbox/dark-v10',
-	center: [33.8598, 49.4444],
-	zoom: 5.1
-});
-
-
-// Last updated
 function startTime() {
   offset = 2;
   var today = new Date();
@@ -246,9 +381,7 @@ function startTime() {
   d = String(d).padStart(2, '0');
   var timestr = `${y}-${mo}-${d} ${h}:${m}`
   document.getElementById('lastUpdated').innerHTML =  `
-  	<p><a href="https://www.paypal.com/paypalme/sashatrubetskoy"><strong>Donate.</strong></a> Join <a href="https://t.me/ukrvideomap">Telegram.</a></p>
-  	<p>Last updated ${ lastUpdatedTime }</p>
-  	<p>Time in Ukraine: ${ timestr }`
+  	<a href="https://www.paypal.com/paypalme/sashatrubetskoy"><strong>Donate.</strong></a> Join <a href="https://t.me/ukrvideomap">Telegram.</a> Last updated: ${ lastUpdatedTime }. Time in Ukraine: ${ timestr }`
   var t = setTimeout(function() {
     startTime()
   }, 1000);
@@ -257,7 +390,252 @@ function startTime() {
 startTime()
 
 
+
+const toggleFeed = () => {
+	document.getElementById("feedButton").classList.toggle('hidden');
+	var feed = document.getElementById("feed");
+	feed.classList.toggle('open');
+	// Pan the map while the infowindow resizes so we don't lose our AOI
+	const directionMultiplier = feed.classList.contains('open') ? 1 : -1; 
+	map.panBy([100*directionMultiplier, 0], { 
+		duration: 500,
+		easing: (t) => t<.5 ? 2*t*t : -1+(4-2*t)*t 
+	});
+};
+
+
+
+// add power plant markers to map
+const togglePowerPlantMarkers = () => {
+	var powerPlantMarkers = document.getElementsByClassName('powerplant');
+	var powerPlantsVisibility = map.getLayoutProperty('powerPlants', 'visibility');
+	if (powerPlantsVisibility == 'visible') {
+    for (let i = 0; i < powerPlantMarkers.length; i++) {
+        powerPlantMarkers[i].style.visibility = "visible";
+    }
+	} else {
+    for (let i = 0; i < powerPlantMarkers.length; i++) {
+        powerPlantMarkers[i].style.visibility = "hidden";
+    }
+	}
+}
+
+// add power plant markers to map
+const toggleRecentVideoMarkers = () => {
+	var powerPlantMarkers = document.getElementsByClassName('recentvideo');
+	var powerPlantsVisibility = map.getLayoutProperty('videoDataToday', 'visibility');
+	if (powerPlantsVisibility == 'visible') {
+    for (let i = 0; i < powerPlantMarkers.length; i++) {
+        powerPlantMarkers[i].style.visibility = "visible";
+    }
+	} else {
+    for (let i = 0; i < powerPlantMarkers.length; i++) {
+        powerPlantMarkers[i].style.visibility = "hidden";
+    }
+	}
+}
+
+// https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/
+const toggleLayerVisibility = (checkboxId) => {
+	const checkboxLayers = {
+		'checkbox-recent': ['videoDataToday'],
+		'checkbox-old': ['videoDataOld'],
+		'checkbox-troop-placements': ['troopPlacement'],
+		'checkbox-territory': ['ukrVoronoi'],
+		'checkbox-population': ['population'],
+		'checkbox-electricity': ['powerLines', 'powerPlants'],
+		'checkbox-pipelines': ['gasPipelines', 'otherPipelines'],
+		'checkbox-railways': ['railways']
+	}
+
+	if (checkboxId in checkboxLayers) {
+		var clickedLayers = checkboxLayers[checkboxId];
+
+		for (var i = 0; i < clickedLayers.length; i++) {
+			var clickedLayer = clickedLayers[i];
+			const visibility = map.getLayoutProperty(
+				clickedLayer,
+				'visibility'
+			);
+			console.log(clickedLayer);
+			 
+			// Toggle layer visibility by changing the layout object's visibility property.
+			if (visibility === 'visible') {
+				// toggle map
+				map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+				this.className = '';
+				// toggle legend
+				var legendId = checkboxId.replace('checkbox', 'legend');
+				document.getElementById(legendId).style.visibility = 'hidden';
+				document.getElementById(legendId).style.maxHeight = '0px';
+			} else {
+				// toggle map
+				this.className = 'active';
+				map.setLayoutProperty(
+					clickedLayer,
+					'visibility',
+					'visible'
+				);
+				// toggle legend
+				var legendId = checkboxId.replace('checkbox', 'legend');
+				document.getElementById(legendId).style.visibility = 'visible';
+				document.getElementById(legendId).style.maxHeight = '500px';
+			}
+			// Regenerate marker layers
+			if (clickedLayer === 'powerPlants') {
+				togglePowerPlantMarkers();
+			} else if (clickedLayer === 'videoDataToday') {
+				toggleRecentVideoMarkers();
+			}
+		}
+	}
+}
+
+
+// https://stackoverflow.com/questions/52011944/link-checkboxes-with-parent-child-relationship-without-jquery
+let allCheckboxes;
+/* checkbox click handler */
+let toggleCheck = function(e) {
+	e.stopPropagation();
+	var clicked = this;
+	/* clicked ones is the parent */
+	if (clicked.dataset.parent === '-1') {
+		/* search child checkboxes having data-parent=id of clicked ones */
+		Array.prototype.slice.call(allCheckboxes).forEach(function(c) {
+			console.log(c);
+			if (c.dataset.parent === clicked.id) {
+				/* set checked state same as clicked ones */
+				if (c.checked != clicked.checked) {
+					toggleLayerVisibility(c.id);
+				}
+				c.checked = clicked.checked;
+			}
+		});
+	} else {
+		/* clicked ones is child checkbox */
+		toggleLayerVisibility(clicked.id)
+		var parentId = clicked.dataset.parent;
+		var checkState = clicked.checked;
+		Array.prototype.slice.call(allCheckboxes).forEach(function(c) {
+			/* search checkboxes having data-parent same as clicked ones and is not checked */
+			if (parentId === c.dataset.parent && !c.checked) {
+				checkState = false;
+				return false;
+			}
+		});
+		/* search parent checkbox of clicked ones */
+		Array.prototype.slice.call(allCheckboxes).forEach(function(c) {
+			if (c.id === parentId) {
+				c.checked = checkState;
+				return false;
+			}
+		});
+	}
+};
+/* wait till DOM renderes and available to bind event listneres */
+document.addEventListener('DOMContentLoaded', function() {
+	/* fetch all checkboxes having attributes data-parent and id */
+	allCheckboxes = document.querySelectorAll('input[type=checkbox][data-parent][id]');
+	/* iterate over all checkboxed to bind click listeners */
+	Array.prototype.slice.call(allCheckboxes).forEach(function(c) {
+		c.addEventListener('click', toggleCheck);
+	});
+});
+
+
+
+
+function toggleShowLayers() {
+	if (layersIsOpen) {
+		document.getElementById("layersContent").style.visibility = "hidden";
+		document.getElementById("layersContent").style.maxHeight = "20px";
+		document.getElementById("layersShowButton").innerHTML = `
+			<div style="text-align: left; float: left; width:50%;"><strong>Layers</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(show)</a></div>`;
+		layersIsOpen = false;
+	} else {
+		document.getElementById("layersContent").style.visibility = "visible";
+		document.getElementById("layersContent").style.maxHeight = "500px";
+		document.getElementById("layersShowButton").innerHTML = `
+			<div style="text-align: left; float: left; width:50%;"><strong>Layers</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(hide)</a></div>`;
+		layersIsOpen = true;
+	}
+}
+
+
+function toggleShowLegend() {
+	if (legendIsOpen) {
+		document.getElementById("legendContent").style.display = "none";
+		document.getElementById("legend").style.height = "20px";
+		document.getElementById("legendShowButton").innerHTML = `
+			<div style="text-align: left; float: left; width:50%;"><strong>Legend</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(show)</a></div>`;
+		legendIsOpen = false;
+	} else {
+		document.getElementById("legendContent").style.display = "";
+		document.getElementById("legend").style.height = "";
+		document.getElementById("legendShowButton").innerHTML = `
+			<div style="text-align: left; float: left; width:50%;"><strong>Legend</strong></div>
+			<div style="float: left; width: 50%"><a href=#>(hide)</a></div>`;
+		legendIsOpen = true;
+	}
+}
+
+
+
+
+function render() {
+	// Update feed
+	// console.log(sidebarHtmlLangs[chosenLang]);
+	var title = {'ru': 'Лента', 'en': 'Feed'}[chosenLang];
+	var feedHTML = `
+		<div style="position: absolute; right: 10px; cursor: pointer" onclick="toggleFeed()">✕</div>
+		<div><h1>${title}</h1></div>
+		<div>${sidebarHtmlLangs[chosenLang]}</div>
+	`
+	document.getElementById("feed").innerHTML = feedHTML;
+
+	// Update Controls
+	var controlsTexts = {
+		"layers-title": {'ru': '<strong>Слои</strong>', 'en': '<strong>Layers</strong>'},
+		"layers-hide": {'ru': '<a href=#>(скрыть)</a>', 'en': '<a href=#>(hide)</a>'},
+		"label-videos": {'ru': 'Видео', 'en': 'Videos'},
+		"label-recent": {'ru': 'Недавние (24 ч)', 'en': 'Recent (24 hrs)'},
+		"label-old": {'ru': 'Старые', 'en': 'Old'},
+		// "label-troop-placements": {'ru': 'Расположения войск', 'en': 'Troop placements'},
+		"label-territory": {'ru': 'Территория', 'en': 'Territory'},
+		"label-population": {'ru': 'Числ. населения', 'en': 'Population'},
+		"label-infrastructure": {'ru': 'Инфраструктура', 'en': 'Infrastructure'},
+		"label-electricity": {'ru': 'Электричество', 'en': 'Electricity'},
+		"label-pipelines": {'ru': 'Трубопроводы', 'en': 'Pipelines'}
+		// "label-railways": {'ru': 'Железные дороги', 'en': 'Railways'},
+	}
+	for (elemId in controlsTexts) {
+		console.log(elemId);
+		var html = controlsTexts[elemId][chosenLang];
+		document.getElementById(elemId).innerHTML = html;
+	}
+
+}
+
+
+
+
+// TO MAKE THE MAP APPEAR YOU MUST
+// ADD YOUR ACCESS TOKEN FROM
+// https://account.mapbox.com
+mapboxgl.accessToken = 'pk.eyJ1IjoidHJ1YmV0c2tveSIsImEiOiJjazFwb3VoamUwemhzM29wc3ZjN3Y5Z2VoIn0.b8W8NzHjoohOmA45YucRqg';
+const map = new mapboxgl.Map({
+	container: 'map',
+	style: 'mapbox://styles/mapbox/dark-v10',
+	center: [33.8598, 49.4444],
+	zoom: 5.1
+});
+
+
 map.on('load', () => {
+	map.resize();
 
 	// Separate out today's data from previous
 	videoDataToday = {
@@ -270,28 +648,48 @@ map.on('load', () => {
 	}
 	console.log(videoDataToday);
 
-  // Create this source and layer before everything else
-  map.addSource('videoDataToday', {
-    'type': 'geojson',
-    'data': videoDataToday
+	// Create this source and layer before everything else
+	map.addSource('videoDataToday', {
+		'type': 'geojson',
+		'data': videoDataToday
 	});
-  map.addSource('videoDataOld', {
-    'type': 'geojson',
-    'data': videoDataOld
+	map.addSource('videoDataOld', {
+		'type': 'geojson',
+		'data': videoDataOld
 	});
-  map.addSource('ukrVoronoi', {
-    'type': 'geojson',
-    'data': ukrVoronoi
+	map.addSource('ukrVoronoi', {
+		'type': 'geojson',
+		'data': ukrVoronoi
 	});
- //  map.addSource('powerLines', {
- //    'type': 'geojson',
- //    'data': ukrPowerLines
-	// });
+	map.addSource('ukrCities', {
+		'type': 'geojson',
+		'data': ukrCities
+	});
+	map.addSource('powerLines', {
+		'type': 'geojson',
+		'data': ukrPowerLines
+	});
+	map.addSource('powerPlants', {
+		'type': 'geojson',
+		'data': ukrPowerPlants
+	});
+	map.addSource('gasPipelines', {
+		'type': 'geojson',
+		'data': ukrGasPipelines
+	});
+	map.addSource('otherPipelines', {
+		'type': 'geojson',
+		'data': ukrOtherPipelines
+	});
+
 
 	map.addLayer({
 		'id': 'ukrVoronoi',
 		'type': 'fill',
 		'source': 'ukrVoronoi',
+		'layout': {
+			'visibility': 'visible'
+		},
 		'paint': {
 			'fill-color': [
 				'match',
@@ -322,29 +720,68 @@ map.on('load', () => {
 		}
 	});
 
-	// map.addLayer({
-	// 	'id': 'powerLines',
-	// 	'type': 'line',
-	// 	'source': 'powerLines',
-	// 	'layout': {
-	// 		'line-join': 'round',
-	// 		'line-cap': 'round'
-	// 	},
-	// 	'paint': {
-	// 		'line-color': 'lime',
-	// 		'line-width': {
-	// 			'property': 'voltage',
-	// 			'stops': [[300000, 0.25], [500000, 0.5]]
-	// 		}
-	// 	}
-	// });
+	map.addLayer({
+		'id': 'powerLines',
+		'type': 'line',
+		'source': 'powerLines',
+		'layout': {
+			'line-join': 'round',
+			'line-cap': 'round',
+			'visibility': 'none'
+		},
+		'paint': {
+			'line-color': 'yellow',
+			'line-width': {
+				'property': 'voltage',
+				'stops': [[300000, 0.25], [500000, 0.5]]
+			}
+		}
+	});
+
+	map.addLayer({
+		'id': 'gasPipelines',
+		'type': 'line',
+		'source': 'gasPipelines',
+		'layout': {
+			'line-join': 'round',
+			'line-cap': 'round',
+			'visibility': 'none'
+		},
+		'paint': {
+			'line-color': 'cyan',
+			'line-width': 1
+		}
+	});
+
+	map.addLayer({
+		'id': 'otherPipelines',
+		'type': 'line',
+		'source': 'otherPipelines',
+		'layout': {
+			'line-join': 'round',
+			'line-cap': 'round',
+			'visibility': 'none'
+		},
+		'paint': {
+			'line-color': ['match',
+				['get', 'substance'],
+				'oil',
+				'lime',
+				'ammonia',
+				'green',
+				'blue'
+				],
+			'line-width': 1
+		}
+	});
 
 	map.addLayer({
 		'id': 'videoDataOld',
 		'type': 'circle',
 		'source': 'videoDataOld',
 		'layout': {
-			'circle-sort-key': ['get', 'date']
+			'circle-sort-key': ['get', 'date'],
+			'visibility': 'none'
 		},
 		'paint': {
 			'circle-color': 'DimGray',
@@ -354,14 +791,52 @@ map.on('load', () => {
 		}
 	});
 
-	// add markers to map
+
+	map.addLayer({
+		'id': 'population',
+		'type': 'circle',
+		'source': 'ukrCities',
+		'layout': {
+			'circle-sort-key': ['get', 'date'],
+			'visibility': 'none'
+		},
+		'paint': {
+			'circle-color': 'white',
+			'circle-opacity': 0.5,
+			'circle-radius': ['+', 1, ['*', 0.01, ['sqrt', ['get', 'population']]]],
+			'circle-stroke-width': 0,
+			'circle-stroke-color': 'grey'
+		}
+	});
+
+
+	// power plant markers
+	for (const feature of ukrPowerPlants.features) {
+		// create a HTML element for each feature
+		const el = document.createElement('div');
+		var className = 'powerplant ' + feature.properties['plant-type'].toLowerCase()
+			.replaceAll(/\W/ig, '-').replaceAll(/\-+/ig, '-');
+		console.log(className);
+		// className = 'power-plant';
+		// console.log(feature);
+		el.className = className;
+		el.style.visibility = 'hidden';
+	 
+		// make a marker for each feature and add it to the map
+		new mapboxgl.Marker(el)
+			.setLngLat(feature.geometry.coordinates)
+		.addTo(map);
+	}
+
+	// add video markers to map
 	for (const feature of videoDataToday.features.reverse()) {
 		// create a HTML element for each feature
 		const el = document.createElement('div');
-		const className = feature.properties.category.toLowerCase()
+		const className = 'recentvideo ' + feature.properties.category.toLowerCase()
 			.replaceAll(/\W/ig, '-').replaceAll(/\-+/ig, '-');
 		// console.log(feature);
 		el.className = className;
+		el.style.visibility = 'visible';
 	 
 		// make a marker for each feature and add it to the map
 		new mapboxgl.Marker(el)
@@ -374,7 +849,8 @@ map.on('load', () => {
 		'type': 'circle',
 		'source': 'videoDataToday',
 		'layout': {
-			'circle-sort-key': ['get', 'date']
+			'circle-sort-key': ['get', 'date'],
+			'visibility': 'visible'
 		},
 		'paint': {
 			'circle-color': 'white',
@@ -382,6 +858,21 @@ map.on('load', () => {
 			'circle-radius': 8,
 			'circle-stroke-width': 0,
 			'circle-stroke-color': 'white'
+		}
+	});
+
+	map.addLayer({
+		'id': 'powerPlants',
+		'type': 'circle',
+		'source': 'powerPlants',
+		'layout': {
+			'visibility': 'none'
+		},
+		'paint': {
+			'circle-color': 'white',
+			'circle-opacity': 0,
+			'circle-radius': 9,
+			'circle-stroke-width': 0
 		}
 	});
 
@@ -398,7 +889,20 @@ map.on('load', () => {
 		 
 		// Copy coordinates array.
 		const coordinates = e.features[0].geometry.coordinates.slice();
-		const description = e.features[0].properties.description;
+		var description;
+		if (chosenLang == 'en') {
+			if ('html-en' in e.features[0].properties) {
+				description = e.features[0].properties['html-en'];
+			} else {
+				description = e.features[0].properties.description;
+			}
+		} else {
+			if ('html-ru' in e.features[0].properties) {
+				description = e.features[0].properties['html-ru'];
+			} else {
+				description = getRussian(e.features[0].properties.description);
+			}
+		}
 		 
 		// Ensure that if the map is zoomed out such that multiple
 		// copies of the feature are visible, the popup appears
@@ -416,6 +920,9 @@ map.on('load', () => {
 		doThePopupThing(e);
 	});
 	map.on('mouseenter', 'videoDataOld', (e) => {
+		doThePopupThing(e);
+	});
+	map.on('mouseenter', 'powerPlants', (e) => {
 		doThePopupThing(e);
 	});
 	// map.on('mouseleave', 'videoData', () => {
