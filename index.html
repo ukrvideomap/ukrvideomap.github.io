@@ -208,7 +208,7 @@ p {
 		<div id="legendContent">
 			<div id="legend-recent">
 				<div class="legend-lang" language="en">
-					<i>Recent videos (24 hrs)</i>
+					<i>Recent videos (48 hrs)</i>
 					<table>
 						<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
 						<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
@@ -224,7 +224,7 @@ p {
 					</table>
 				</div>
 				<div class="legend-lang" language="ru">
-					<i>Недавние видео (24 ч)</i>
+					<i>Недавние видео (48 ч)</i>
 					<table>
 						<tr><td><div class="fighting"></div></td><td>Бой</td></tr>
 						<tr><td><div class="bombardment"></div></td><td>Бомбы</td></tr>
@@ -601,7 +601,7 @@ function render() {
 		"layers-title": {'ru': '<strong>Слои</strong>', 'en': '<strong>Layers</strong>'},
 		"layers-hide": {'ru': '<a href=#>(скрыть)</a>', 'en': '<a href=#>(hide)</a>'},
 		"label-videos": {'ru': 'Видео', 'en': 'Videos'},
-		"label-recent": {'ru': 'Недавние (24 ч)', 'en': 'Recent (24 hrs)'},
+		"label-recent": {'ru': 'Недавние (48 ч)', 'en': 'Recent (48 hrs)'},
 		"label-old": {'ru': 'Старые', 'en': 'Old'},
 		// "label-troop-placements": {'ru': 'Расположения войск', 'en': 'Troop placements'},
 		"label-territory": {'ru': 'Территория', 'en': 'Territory'},
@@ -640,11 +640,11 @@ map.on('load', () => {
 	// Separate out today's data from previous
 	videoDataToday = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.hours_old<=24)
+		'features': videoData.features.filter(o => o.properties.hours_old<=48)
 	}
 	videoDataOld = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.hours_old>24)
+		'features': videoData.features.filter(o => o.properties.hours_old>48)
 	}
 	console.log(videoDataToday);
 
