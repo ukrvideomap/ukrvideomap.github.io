@@ -609,6 +609,9 @@ function generateRecentVideosLegend() {
 	const title = (setLang == 'ru') ? 'Недавние видео (48 ч)' : 'Recent videos (48 hrs)';
 	var trs = '';
 	uniquePointTypes.forEach(class_ => {
+		if (!(class_ in texts)) {
+			class_ = 'situation-report';
+		}
 		const label = texts[class_][chosenLang];
 		const tr = `<tr><td><div class="${class_}"></div></td><td>${label}</td></tr>`;
 		trs = trs + tr;
