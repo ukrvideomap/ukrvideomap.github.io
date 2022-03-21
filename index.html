@@ -207,38 +207,6 @@ p {
 		</div>
 		<div id="legendContent">
 			<div id="legend-recent">
-				<div class="legend-lang" language="en">
-					<i>Recent videos (48 hrs)</i>
-					<table>
-						<tr><td><div class="fighting"></div></td><td>Fighting</td></tr>
-						<tr><td><div class="bombardment"></div></td><td>Bombardment</td></tr>
-						<tr><td><div class="troop-movement-russia"></div></td><td>Troop movement - Russia</td></tr>
-						<tr><td><div class="troop-movement-ukraine"></div></td><td>Troop movement - Ukraine</td></tr>
-						<tr><td><div class="aircraft"></div></td><td>Aircraft</td></tr>
-						<tr><td><div class="destroyed-equipment"></div></td><td>Destroyed equipment</td></tr>
-						<tr><td><div class="fatalities"></div></td><td>Dead bodies</td></tr>
-						<tr><td><div class="fire"></div></td><td>Fire</td></tr>
-						<tr><td><div class="bridge-destroyed"></div></td><td>Infrastructure destroyed</td></tr>
-						<tr><td><div class="refugees"></div></td><td>Refugees</td></tr>
-						<tr><td><div class="situation-report"></div></td><td>Other</td></tr>
-					</table>
-				</div>
-				<div class="legend-lang" language="ru">
-					<i>Недавние видео (48 ч)</i>
-					<table>
-						<tr><td><div class="fighting"></div></td><td>Бой</td></tr>
-						<tr><td><div class="bombardment"></div></td><td>Бомбы</td></tr>
-						<tr><td><div class="troop-movement-russia"></div></td><td>Действие войск РФ</td></tr>
-						<tr><td><div class="troop-movement-ukraine"></div></td><td>Действие войск ВСУ</td></tr>
-						<tr><td><div class="aircraft"></div></td><td>Авиация</td></tr>
-						<tr><td><div class="destroyed-equipment"></div></td><td>Утраченная техника</td></tr>
-						<tr><td><div class="fatalities"></div></td><td>Трупы</td></tr>
-						<tr><td><div class="fire"></div></td><td>Пожар</td></tr>
-						<tr><td><div class="bridge-destroyed"></div></td><td>Мост уничтожен</td></tr>
-						<tr><td><div class="refugees"></div></td><td>Беженцы</td></tr>
-						<tr><td><div class="situation-report"></div></td><td>Другие видео</td></tr>
-					</table>
-				</div>
 			</div>
 <!-- 			<div id="legend-old">
 				<div class="legend-lang" language="en">
@@ -584,6 +552,77 @@ function toggleShowLegend() {
 
 
 
+function generateRecentVideosLegend() {
+	var vidsToday = videoData.features.filter(o => o.properties.hours_old<=48);
+	const uniquePointTypes = new Set();
+	for (var i = 0; i < vidsToday.length; i++) {
+		uniquePointTypes.add(vidsToday[i].properties.category.toLowerCase()
+			.replaceAll(/\W/ig, '-').replaceAll(/\-+/ig, '-'));
+	}
+
+	const texts = {
+		'fighting': {
+			'ru': 'Бой',
+			'en': 'Fighting'
+		},
+		'bombardment': {
+			'ru': 'Обстрел',
+			'en': 'Bombardment'
+		},
+		'troop-movement-russia': {
+			'ru': 'Действие войск РФ',
+			'en': 'Troop movement - Russia'
+		},
+		'troop-movement-ukraine': {
+			'ru': 'Действие войск ВСУ',
+			'en': 'Troop movement - Ukraine'
+		},
+		'aircraft': {
+			'ru': 'Авиация',
+			'en': 'Aircraft'
+		},
+		'destroyed-equipment': {
+			'ru': 'Утраченная техника',
+			'en': 'Destroyed equipment'
+		},
+		'fatalities': {
+			'ru': 'Трупы',
+			'en': 'fatalities'
+		},
+		'fire': {
+			'ru': 'Пожар',
+			'en': 'Fire'
+		},
+		'bridge-destroyed': {
+			'ru': 'Уничтоженная инфраструктура',
+			'en': 'Infrastructure destroyed'
+		},
+		'refugees': {
+			'ru': 'Беженцы',
+			'en': 'Refugees'
+		},
+		'situation-report': {
+			'ru': 'Другие',
+			'en': 'Other'
+		}
+	}
+	const title = (setLang == 'ru') ? 'Недавние видео (48 ч)' : 'Recent videos (48 hrs)';
+	var trs = '';
+	uniquePointTypes.forEach(class_ => {
+		const label = texts[class_][chosenLang];
+		const tr = `<tr><td><div class="${class_}"></div></td><td>${label}</td></tr>`;
+		trs = trs + tr;
+	});
+
+	var html = `
+	<i>${title}</i>
+	<table>
+		${trs}
+	</table>
+	`
+	document.getElementById('legend-recent').innerHTML = html;
+}
+
 
 function render() {
 	// Update feed
@@ -616,6 +655,9 @@ function render() {
 		var html = controlsTexts[elemId][chosenLang];
 		document.getElementById(elemId).innerHTML = html;
 	}
+
+	// Remove legend entries with no items
+	generateRecentVideosLegend();
 
 }
 
