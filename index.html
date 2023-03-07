@@ -553,7 +553,7 @@ function toggleShowLegend() {
 
 
 function generateRecentVideosLegend() {
-	var vidsToday = videoData.features.filter(o => o.properties.hours_old<=48);
+	var vidsToday = videoData.features.filter(o => o.properties.hours_old<=100);
 	const uniquePointTypes = new Set();
 	for (var i = 0; i < vidsToday.length; i++) {
 		uniquePointTypes.add(vidsToday[i].properties.category.toLowerCase()
@@ -685,11 +685,11 @@ map.on('load', () => {
 	// Separate out today's data from previous
 	videoDataToday = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.hours_old<=48)
+		'features': videoData.features.filter(o => o.properties.hours_old<=100)
 	}
 	videoDataOld = {
 		'type': 'FeatureCollection',
-		'features': videoData.features.filter(o => o.properties.hours_old>48)
+		'features': videoData.features.filter(o => o.properties.hours_old>100)
 	}
 	console.log(videoDataToday);
 
